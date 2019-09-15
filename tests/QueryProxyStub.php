@@ -15,6 +15,10 @@ class QueryProxyStub implements QueryProxy
         $this->query = $query;
     }
 
+    public function getDocument(string $id): object
+    {
+    }
+
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator();

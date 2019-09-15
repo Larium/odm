@@ -15,4 +15,6 @@ interface QueryProxy
     public function offset(int $number): QueryProxy;
 
     public function orderBy(string $field, int $direction): QueryProxy;
+
+    public function getDocument(string $id): object;
 }

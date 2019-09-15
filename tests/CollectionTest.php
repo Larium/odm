@@ -11,6 +11,8 @@ use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
+    const DOC_ID = 'TbwKbAOiojFK4j857hoq';
+
     private $client;
 
     public function setUp(): void
@@ -25,6 +27,13 @@ class CollectionTest extends TestCase
 
         $data = $this->client->getCollection('users')->getDocuments($c);
 
-        print_r($data);
+        $this->assertNotEmpty($data);
+    }
+
+    public function testGetDocument(): void
+    {
+        $doc = $this->client->getCollection('users')->getDocument(self::DOC_ID);
+
+        $this->assertInstanceOf(Document::class, $doc);
     }
 }

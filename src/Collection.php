@@ -18,16 +18,26 @@ class Collection
 
     private $persister;
 
+    private $queryProxy;
+
     public function __construct(
         string $name,
         ExpressionVisitor $visitor,
         DocumentVisitor $documentVisitor,
-        Persister $persister
+        Persister $persister,
+        QueryProxy $queryProxy
     ) {
         $this->name = $name;
         $this->expressionVisitor = $visitor;
         $this->documentVisitor = $documentVisitor;
         $this->persister = $persister;
+        $this->queryProxy = $queryProxy;
+    }
+
+    public function getDocument(string $id): Document
+    {
+        return $this->documentVisitor
+                    ->visit($this->queryProxy->getDocument($id));
     }
 
     /**
