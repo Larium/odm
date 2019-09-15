@@ -24,4 +24,19 @@ class QueryProxyStub implements QueryProxy
     {
         return $this->query;
     }
+
+    public function limit(int $number): QueryProxy
+    {
+        return $this;
+    }
+
+    public function offset(int $number): QueryProxy
+    {
+        return $this;
+    }
+
+    public function orderBy(string $field, int $direction): QueryProxy
+    {
+        return $this;
+    }
 }

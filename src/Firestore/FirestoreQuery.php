@@ -17,6 +17,25 @@ class FirestoreQuery implements QueryProxy
          $this->query = $query;
     }
 
+    public function limit(int $number): QueryProxy
+    {
+        $this->query->limit($number);
+
+        return $this;
+    }
+
+    public function offset(int $number): QueryProxy
+    {
+        $this->query->offset($number);
+
+        return $this;
+    }
+
+    public function orderBy(string $field, int $direction): QueryProxy
+    {
+        $this->query->orderBy($field, $direction);
+    }
+
     public function getIterator(): ArrayIterator
     {
         $snapshot = $this->query->documents();

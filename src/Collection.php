@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Larium\ODM;
 
+use Larium\ODM\Persister;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\ExpressionVisitor;
 
@@ -15,14 +16,18 @@ class Collection
 
     private $documentVisitor;
 
+    private $persister;
+
     public function __construct(
         string $name,
         ExpressionVisitor $visitor,
-        DocumentVisitor $documentVisitor
+        DocumentVisitor $documentVisitor,
+        Persister $persister
     ) {
         $this->name = $name;
         $this->expressionVisitor = $visitor;
         $this->documentVisitor = $documentVisitor;
+        $this->persister = $persister;
     }
 
     /**
@@ -41,6 +46,21 @@ class Collection
         }
 
         return $data;
+    }
+
+    public function persist(Document $document): void
+    {
+        $this->persister->persist($document);
+    }
+
+    public function update(Document $document): void
+    {
+        $this->persister->update($document);
+    }
+
+    public function remove(Document $document): void
+    {
+        $this->persister->remove($document);
     }
 
     public function getName(): string

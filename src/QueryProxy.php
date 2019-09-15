@@ -9,4 +9,10 @@ use ArrayIterator;
 interface QueryProxy
 {
     public function getIterator(): ArrayIterator;
+
+    public function limit(int $number): QueryProxy;
+
+    public function offset(int $number): QueryProxy;
+
+    public function orderBy(string $field, int $direction): QueryProxy;
 }

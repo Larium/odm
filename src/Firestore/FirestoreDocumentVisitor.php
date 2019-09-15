@@ -17,6 +17,6 @@ class FirestoreDocumentVisitor implements DocumentVisitor
     {
         \assert($item instanceof DocumentSnapshot);
 
-        return new Document($item->id(), $item->name(), $item->data());
+        return Document::load($item->id(), $item->data());
     }
 }

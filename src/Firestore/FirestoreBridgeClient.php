@@ -19,10 +19,12 @@ class FirestoreBridgeClient implements Client
 
     public function getCollection(string $collectionName): Collection
     {
+        $collection = $this->client->collection($collectionName);
         return new Collection(
             $collectionName,
-            new FirestoreExpressionVisitor($this->client->collection($collectionName)),
-            new FirestoreDocumentVisitor()
+            new FirestoreExpressionVisitor($collection),
+            new FirestoreDocumentVisitor(),
+            new FirestorePersister($collection)
         );
     }
 }

@@ -4,19 +4,28 @@ declare(strict_types = 1);
 
 namespace Larium\ODM;
 
-class Document
+final class Document
 {
     private $id;
 
-    private $name;
-
     private $data;
 
-    public function __construct(string $id, string $name, array $data)
+    private $changes;
+
+    public static function load(string $id, array $data): Document
+    {
+        $doc = new Document($id, []);
+
+        $doc->data = $data;
+
+        return $doc;
+    }
+
+    public function __construct(string $id, array $data)
     {
         $this->id = $id;
-        $this->name = $name;
         $this->data = $data;
+        $this->changes = $data;
     }
 
     public function getId(): string
@@ -29,8 +38,44 @@ class Document
         return $this->data;
     }
 
-    public function getName(): string
+    public function exists(string $property): bool
     {
-        return $this->name;
+        return array_key_exists($property, $this->data);
+    }
+
+    public function __get(string $name)
+    {
+        if ($this->exists($name)) {
+            return $this->data[$name];
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf("Data with name `%s` does not exist.", $name)
+        );
+    }
+
+    public function __set(string $name, $value): void
+    {
+        if ($this->exists($name)) {
+            $this->data[$name] = $value;
+
+            $this->changes[$name] = $value;
+
+            return;
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf("Data with name `%s` does not exist.", $name)
+        );
+    }
+
+    public function hasChanges(): bool
+    {
+        return !empty($this->changes);
+    }
+
+    public function getChanges()
+    {
+        return $this->changes;
     }
 }
