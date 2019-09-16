@@ -30,6 +30,9 @@ class DataMap
         return $this->collectionName;
     }
 
+    /**
+     * @return array FieldMap[]
+     */
     public function getFieldMaps(): array
     {
         return $this->fieldMaps;

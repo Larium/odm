@@ -17,7 +17,7 @@ class User
     private $id;
 
     /**
-     * @ODM\Field(type="string", name="firstname")
+     * @ODM\Field(type="string")
      */
     private $first;
 
@@ -25,4 +25,14 @@ class User
      * @ODM\Field(type="string")
      */
     private $last;
+
+    /**
+     * @ODM\Field(type="number")
+     */
+    private $born;
+
+    public function changeName(string $name): void
+    {
+        $this->first = $name;
+    }
 }

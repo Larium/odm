@@ -57,9 +57,11 @@ final class Document
     public function __set(string $name, $value): void
     {
         if ($this->exists($name)) {
+            if ($this->data[$name] !== $value) {
+                $this->changes[$name] = $value;
+            }
             $this->data[$name] = $value;
 
-            $this->changes[$name] = $value;
 
             return;
         }

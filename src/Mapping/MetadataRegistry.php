@@ -59,17 +59,17 @@ class MetadataRegistry
             );
         }
 
-        $this->metadata[$anno->collection] = $dataMap;
+        $this->metadata[$className] = $dataMap;
     }
 
-    public function getDataMapForCollection(string $collectionName): DataMap
+    public function getDataMapForDocument(string $documentName): DataMap
     {
-        if (array_key_exists($collectionName, $this->metadata)) {
-            return $this->metadata[$collectionName];
+        if (array_key_exists($documentName, $this->metadata)) {
+            return $this->metadata[$documentName];
         }
 
         throw new MetadataException(
-            sprintf('Collection `%s` does not exist', $collectionName)
+            sprintf('Document `%s` does not exist', $documentName)
         );
     }
 }

@@ -52,6 +52,11 @@ class FieldMap
         }
     }
 
+    public function getPropertyValue(object $object)
+    {
+        return $this->property->getValue($object);
+    }
+
     private function initProperty(): void
     {
         try {
