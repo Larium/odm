@@ -118,11 +118,8 @@ class UnitOfWork
     private function hasChangeSet(Document $doc, object $object): bool
     {
         $datamap = $this->dm->getDataMap(get_class($object));
-        foreach ($datamap->getFieldMaps() as $fieldMap) {
-            $property = $fieldMap->getPropertyName();
-            $doc->$property = $fieldMap->getPropertyValue($object);
-        }
+        $hydrator = new Hydrator($datamap);
 
-        return $doc->hasChanges();
+        return $hydrator->extract($object, $doc)->hasChanges();
     }
 }
