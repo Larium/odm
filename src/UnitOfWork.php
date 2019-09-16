@@ -105,7 +105,6 @@ class UnitOfWork
                 }
             }
         }
-        print_r($this->dirtyObjects);
     }
 
     private function updateDirty(): void
