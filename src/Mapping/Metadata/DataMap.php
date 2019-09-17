@@ -69,9 +69,19 @@ class DataMap
         );
     }
 
+    public function getPropertiesValues(object $object): array
+    {
+        $data = [];
+        foreach ($this->fieldMaps as $fieldMap) {
+            $data[$fieldMap->getPropertyName()] = $fieldMap->getPropertyValue($object);
+        }
+
+        return $data;
+    }
+
     public function getFieldForProperty(string $propertyName): string
     {
-        foreach ($this->getFieldMaps() as $fieldMap) {
+        foreach ($this->fieldMaps as $fieldMap) {
             if ($fieldMap->getPropertyName() == $propertyName) {
                 return $fieldMap->getFieldName();
             }

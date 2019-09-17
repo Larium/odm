@@ -39,9 +39,9 @@ class UnitOfWork
         $this->dm = $dm;
     }
 
-    public function registerOriginal(Document $doc, string $className): void
+    public function registerOriginal(Document $doc, object $object): void
     {
-        $this->originalObjects->attach($doc, $className);
+        $this->originalObjects->attach($object, $doc);
     }
 
     public function registerClean(string $id, object $object): void
@@ -92,19 +92,13 @@ class UnitOfWork
 
     private function computeDirty(): void
     {
-        $ids = $this->identityMap->getData();
-
-        foreach ($this->originalObjects as $doc) {
-            $collection = $this->originalObjects[$doc];
-            $objs = $ids[$collection];
-            foreach ($objs as $id => $obj) {
-                if ($id === $doc->getId()) {
-                    if ($this->hasChangeSet($doc, $obj)) {
-                        $this->registerDirty($obj);
-                    }
-                }
+        foreach ($this->originalObjects as $obj) {
+            $doc = $this->originalObjects[$obj];
+            if ($this->hasChangeSet($doc, $obj)) {
+                $this->registerDirty($obj);
             }
         }
+        print_r($this->dirtyObjects);
     }
 
     private function updateDirty(): void
@@ -117,9 +111,13 @@ class UnitOfWork
 
     private function hasChangeSet(Document $doc, object $object): bool
     {
-        $datamap = $this->dm->getDataMap(get_class($object));
-        $hydrator = new Hydrator($datamap);
+        $dataMap = $this->dm->getDataMap(get_class($object));
+        $fieldMaps = $dataMap->getPropertiesValues($object);
+        $data = $doc->getData();
 
-        return $hydrator->extract($object, $doc)->hasChanges();
+        $common = array_intersect_key($data, $fieldMaps);
+        $diff = array_diff($fieldMaps, $common);
+
+        return !empty($diff);
     }
 }

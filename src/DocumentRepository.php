@@ -58,7 +58,7 @@ class DocumentRepository
         $en = $this->hydrator->hydrate($doc);
 
         $this->dm->getUnitOfWork()->registerClean($doc->getId(), $en);
-        $this->dm->getUnitOfWork()->registerOriginal($doc, $this->dataMap->getDocumentClass()->getName());
+        $this->dm->getUnitOfWork()->registerOriginal($doc, $en);
 
         return $en;
     }

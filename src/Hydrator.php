@@ -33,13 +33,11 @@ class Hydrator
         return $en;
     }
 
-    public function extract(object $object, Document $doc): Document
+    public function extract(object $object): Document
     {
-        foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            $property = $fieldMap->getPropertyName();
-            $doc->$property = $fieldMap->getPropertyValue($object);
-        }
-
-        return $doc;
+        return Document::load(
+            $this->dataMap->getIdMap()->getPropertyValue($object),
+            $this->dataMap->getPropertiesValues($object)
+        );
     }
 }
