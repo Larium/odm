@@ -37,6 +37,10 @@ class DocumentRepository
 
     public function getDocument(string $id): object
     {
+        if ($en = $this->documentExists($id, $this->dataMap->getDocumentClass()->getName())) {
+            return $en;
+        }
+
         $doc = $this->dm->getClient()
             ->getCollection($this->dataMap->getCollectionName())
             ->getDocument($id);
@@ -55,11 +59,10 @@ class DocumentRepository
 
     private function hydrate(Document $doc): object
     {
-        $identityMap = $this->dm->getUnitOfWork()->getIdentityMap();
         $className = $this->dataMap->getDocumentClass()->getName();
 
-        if ($identityMap->contains($doc->getId(), $className)) {
-            return $identityMap->get($doc->getId(), $className);
+        if ($en = $this->documentExists($doc->getId(), $className)) {
+            return $en;
         }
 
         $en = $this->hydrator->hydrate($doc);
@@ -75,5 +78,15 @@ class DocumentRepository
         return array_map(function (Document $doc) {
             return $this->hydrate($doc);
         }, $docs);
+    }
+
+    private function documentExists(string $id, string $className): ?object
+    {
+        $identityMap = $this->dm->getUnitOfWork()->getIdentityMap();
+        if ($identityMap->contains($id, $className)) {
+            return $identityMap->get($id, $className);
+        }
+
+        return null;
     }
 }
