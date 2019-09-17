@@ -31,6 +31,14 @@ class User
      */
     private $born;
 
+    public function __construct(string $first, string $last, int $born)
+    {
+        $this->id = uniqid();
+        $this->first = $first;
+        $this->last = $last;
+        $this->born = $born;
+    }
+
     public function changeName(string $name): void
     {
         $this->first = $name;

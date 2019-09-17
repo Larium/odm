@@ -43,9 +43,5 @@ class DocumentRepositoryTest extends TestCase
         $doc = $repo->getDocument('TbwKbAOiojFK4j857hoq');
 
         $this->assertInstanceOf(User::class, $doc);
-
-        $doc->changeName('John');
-
-        $this->dm->flush();
     }
 }

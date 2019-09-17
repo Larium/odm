@@ -36,4 +36,14 @@ class DocumentManagerTest extends TestCase
 
         $this->assertInstanceOf(DocumentRepository::class, $repo);
     }
+
+    public function testShouldInsertNewEntries(): void
+    {
+        $dm = new DocumentManager($this->config);
+
+        $user = new User('John', 'Doe', 1970);
+
+        $dm->persist($user);
+        $dm->flush();
+    }
 }

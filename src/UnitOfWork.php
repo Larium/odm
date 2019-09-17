@@ -88,6 +88,13 @@ class UnitOfWork
 
     private function insertNew(): void
     {
+        foreach ($this->newObjects as $obj) {
+            $dataMap = $this->dm->getDataMap(get_class($obj));
+
+            $doc = (new Hydrator($dataMap))->extract($obj);
+            $this->dm->getCollection(get_class($obj))->persist($doc);
+        }
+        $this->newObjects->removeAll($this->newObjects);
     }
 
     private function computeDirty(): void
@@ -98,7 +105,6 @@ class UnitOfWork
                 $this->registerDirty($obj);
             }
         }
-        print_r($this->dirtyObjects);
     }
 
     private function updateDirty(): void

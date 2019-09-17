@@ -12,11 +12,21 @@ final class Document
 
     private $changes;
 
-    public static function load(string $id, array $data): Document
-    {
+    private $createdAt;
+
+    private $updatedAt;
+
+    public static function load(
+        string $id,
+        array $data,
+        \DateTimeInterface $createTime,
+        \DateTimeInterface $updateTime
+    ): Document {
         $doc = new Document($id, []);
 
         $doc->data = $data;
+        $doc->createdAt = $createTime;
+        $doc->updatedAt = $updateTime;
 
         return $doc;
     }
@@ -79,5 +89,15 @@ final class Document
     public function getChanges()
     {
         return $this->changes;
+    }
+
+    public function createdAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 }
