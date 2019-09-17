@@ -39,6 +39,11 @@ class UnitOfWork
         $this->dm = $dm;
     }
 
+    public function getIdentityMap(): IdentityMap
+    {
+        return $this->identityMap;
+    }
+
     public function registerOriginal(Document $doc, object $object): void
     {
         $this->originalObjects->attach($object, $doc);

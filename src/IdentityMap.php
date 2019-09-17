@@ -8,7 +8,7 @@ class IdentityMap
 {
     private $data = [];
 
-    public function contains(int $id, string $className): bool
+    public function contains(string $id, string $className): bool
     {
         if (!array_key_exists($className, $this->data)) {
             return false;

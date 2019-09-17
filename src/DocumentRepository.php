@@ -55,6 +55,13 @@ class DocumentRepository
 
     private function hydrate(Document $doc): object
     {
+        $identityMap = $this->dm->getUnitOfWork()->getIdentityMap();
+        $className = $this->dataMap->getDocumentClass()->getName();
+
+        if ($identityMap->contains($doc->getId(), $className)) {
+            return $identityMap->get($doc->getId(), $className);
+        }
+
         $en = $this->hydrator->hydrate($doc);
 
         $this->dm->getUnitOfWork()->registerClean($doc->getId(), $en);
