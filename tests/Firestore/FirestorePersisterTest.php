@@ -21,6 +21,7 @@ class FirestorePersisterTest extends TestCase
 
     public function testShouldPersistDocument(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $doc = new Document(self::DOC_ID, [
             'first' => 'John',
             'last' => 'Doe',
@@ -33,6 +34,7 @@ class FirestorePersisterTest extends TestCase
 
     public function testShouldUpdateDocument(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $doc = new Document(self::DOC_ID, [
             'first' => 'John',
             'last' => 'Doe',
@@ -44,6 +46,7 @@ class FirestorePersisterTest extends TestCase
 
     public function testShouldDeleteDocument(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $doc = new Document(self::DOC_ID, []);
 
         $this->client->getCollection('users')

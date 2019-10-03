@@ -22,6 +22,7 @@ class CollectionTest extends TestCase
 
     public function testGetDocuments(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $c = Criteria::create()
             ->where(Criteria::expr()->eq('first', 'Andreas'));
 
@@ -32,6 +33,7 @@ class CollectionTest extends TestCase
 
     public function testGetDocument(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $doc = $this->client->getCollection('users')->getDocument(self::DOC_ID);
 
         $this->assertInstanceOf(Document::class, $doc);

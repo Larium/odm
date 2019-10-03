@@ -38,6 +38,7 @@ class DocumentRepositoryTest extends TestCase
 
     public function testShouldHydrateDocument(): void
     {
+        $this->markTestIncomplete("Firestore connection required");
         $repo = $this->dm->getRepository(User::class);
 
         $doc = $repo->getDocument('TbwKbAOiojFK4j857hoq');
