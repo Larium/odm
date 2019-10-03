@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace Larium\ODM\Firestore;
 
+use Google\Cloud\Firestore\CollectionReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
-use Google\Cloud\Firestore\Query;
 use Larium\ODM\Document;
 use Larium\ODM\QueryProxy;
 use ArrayIterator;
@@ -14,7 +14,7 @@ class FirestoreQuery implements QueryProxy
 {
     private $query;
 
-    public function __construct(Query $query)
+    public function __construct(CollectionReference $query)
     {
          $this->query = $query;
     }

@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "doctrine/collections": "^1.6",
         "doctrine/annotations": "^1.7"
     },

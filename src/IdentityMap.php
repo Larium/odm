@@ -23,7 +23,7 @@ class IdentityMap
 
     public function get(string $id, string $className): ?object
     {
-        if (self::contains($id, $className)) {
+        if ($this->contains($id, $className)) {
             return $this->data[$className][$id];
         }
 
