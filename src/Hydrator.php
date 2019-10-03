@@ -35,7 +35,7 @@ class Hydrator
 
     public function extract(object $object): Document
     {
-        return Document::load(
+        return new Document(
             $this->dataMap->getIdMap()->getPropertyValue($object),
             $this->dataMap->getPropertiesValues($object)
         );

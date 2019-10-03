@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Larium\ODM\Mapping;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Larium\ODM\Document\User;
 use Larium\ODM\Mapping\Metadata\DataMap;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +24,7 @@ class MetadataRegistryTest extends TestCase
 
         $r->registerPath(__DIR__ . '/../Document');
 
-        $dataMap = $r->getDataMapForCollection('users');
+        $dataMap = $r->getDataMapForDocument(User::class);
 
         $this->assertInstanceOf(DataMap::class, $dataMap);
     }
