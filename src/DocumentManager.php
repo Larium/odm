@@ -89,5 +89,6 @@ class DocumentManager
 
     public function remove(object $object): void
     {
+        $this->unitOfWork->registerRemoved($object);
     }
 }

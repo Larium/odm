@@ -86,7 +86,6 @@ class UnitOfWork
     public function commit(): void
     {
         $this->insertNew();
-        $this->computeDirty();
         $this->updateDirty();
         $this->deleteRemoved();
     }
@@ -102,6 +101,11 @@ class UnitOfWork
         $this->newObjects->removeAll($this->newObjects);
     }
 
+    private function updateDirty(): void
+    {
+        $this->computeDirty();
+    }
+
     private function computeDirty(): void
     {
         foreach ($this->originalObjects as $obj) {
@@ -110,10 +114,6 @@ class UnitOfWork
                 $this->registerDirty($obj);
             }
         }
-    }
-
-    private function updateDirty(): void
-    {
     }
 
     private function deleteRemoved(): void

@@ -7,6 +7,7 @@ namespace Larium\ODM\Firestore;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Larium\ODM\Document;
 use Larium\ODM\DocumentVisitor;
+use function assert;
 
 class FirestoreDocumentVisitor implements DocumentVisitor
 {
@@ -15,8 +16,13 @@ class FirestoreDocumentVisitor implements DocumentVisitor
      */
     public function visit(object $item): Document
     {
-        \assert($item instanceof DocumentSnapshot);
+        assert($item instanceof DocumentSnapshot);
 
-        return Document::load($item->id(), $item->data(), $item->createTime()->get(), $item->updateTime()->get());
+        return Document::load(
+            $item->id(),
+            $item->data(),
+            $item->createTime()->get(),
+            $item->updateTime()->get()
+        );
     }
 }

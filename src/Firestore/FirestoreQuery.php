@@ -36,6 +36,8 @@ class FirestoreQuery implements QueryProxy
     public function orderBy(string $field, int $direction): QueryProxy
     {
         $this->query->orderBy($field, $direction);
+
+        return $this;
     }
 
     public function getDocument(string $id): object
