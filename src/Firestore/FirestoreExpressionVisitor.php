@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Expr\CompositeExpression;
 use Doctrine\Common\Collections\Expr\ExpressionVisitor;
 use Doctrine\Common\Collections\Expr\Value;
 use Google\Cloud\Firestore\CollectionReference;
-use Google\Cloud\Firestore\Query;
 use function array_key_exists;
 
 class FirestoreExpressionVisitor extends ExpressionVisitor
@@ -81,6 +80,6 @@ class FirestoreExpressionVisitor extends ExpressionVisitor
 
         $reflection = new \ReflectionClass($this->queryProxyClass);
 
-        return $reflection->newInstanceArgs([$this->query]);
+        return $reflection->newInstanceArgs([$this->collection]);
     }
 }

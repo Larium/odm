@@ -6,7 +6,6 @@ namespace Larium\ODM\Firestore;
 
 use Google\Cloud\Firestore\CollectionReference;
 use Google\Cloud\Firestore\DocumentSnapshot;
-use Larium\ODM\Document;
 use Larium\ODM\QueryProxy;
 use ArrayIterator;
 
