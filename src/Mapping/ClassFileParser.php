@@ -20,7 +20,7 @@ class ClassFileParser
     }
 
     /**
-     * get the class namespace form file path using token
+     * get the class namespace from file path using token
      *
      * @param $filePathName
      *
