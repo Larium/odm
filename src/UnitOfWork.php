@@ -104,6 +104,14 @@ class UnitOfWork
     private function updateDirty(): void
     {
         $this->computeDirty();
+        foreach ($this->dirtyObjects as $obj) {
+            $dataMap = $this->dm->getDataMap(get_class($obj));
+
+            $doc = (new Hydrator($dataMap))->extract($obj);
+            $this->dm->getCollection(get_class($obj))->update($doc);
+        }
+
+        $this->dirtyObjects->removeAll($this->dirtyObjects);
     }
 
     private function computeDirty(): void
