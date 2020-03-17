@@ -7,7 +7,7 @@ namespace Larium\ODM\Firestore;
 use ArrayIterator;
 use Doctrine\Common\Collections\Criteria;
 use Google\Cloud\Firestore\FirestoreClient;
-use Google\Cloud\Firestore\Query;
+use Google\Cloud\Firestore\V1\StructuredQuery\FieldFilter\Operator;
 use Larium\ODM\QueryProxyStub;
 use PHPUnit\Framework\TestCase;
 
@@ -39,6 +39,6 @@ class FirestoreExpressionVisitorTest extends TestCase
 
         $key = $q->queryKey('where');
 
-        $this->assertEquals(Query::OP_EQUAL, $key['compositeFilter']['filters'][0]['fieldFilter']['op']);
+        $this->assertEquals(Operator::EQUAL, $key['compositeFilter']['filters'][0]['fieldFilter']['op']);
     }
 }

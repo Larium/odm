@@ -4,16 +4,16 @@ declare(strict_types = 1);
 
 namespace Larium\ODM\Firestore;
 
-use Google\Cloud\Firestore\CollectionReference;
-use Google\Cloud\Firestore\DocumentSnapshot;
-use Larium\ODM\QueryProxy;
 use ArrayIterator;
+use Larium\ODM\QueryProxy;
+use Google\Cloud\Firestore\Query;
+use Google\Cloud\Firestore\DocumentSnapshot;
 
 class FirestoreQuery implements QueryProxy
 {
     private $query;
 
-    public function __construct(CollectionReference $query)
+    public function __construct(Query $query)
     {
          $this->query = $query;
     }
@@ -41,9 +41,7 @@ class FirestoreQuery implements QueryProxy
 
     public function getDocument(string $id): object
     {
-        $docRef = $this->query->document($id);
-
-        $docSnap = $docRef->snapshot();
+        $docSnap = $this->getIterator()->current();
         \assert($docSnap instanceof DocumentSnapshot);
 
         return $docSnap;

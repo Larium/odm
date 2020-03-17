@@ -26,7 +26,7 @@ class CollectionTest extends TestCase
 
     public function setUp(): void
     {
-        $this->client = new FirestoreBridgeClient(new FirestoreClient());
+        $this->client = new FirestoreBridgeClient($this->createFirestoreClient());
     }
 
     public function testGetDocuments(): void
@@ -82,13 +82,13 @@ class CollectionTest extends TestCase
     {
         $m = $this->getMockBuilder(CollectionReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getIterator', 'where', 'documents', 'document'])
+            ->setMethods(['getIterator', 'where', 'documents'])
             ->getMock();
 
         $m->method('getIterator')->willReturn(new ArrayIterator());
         $m->method('where')->willReturn($m);
-        $m->method('documents')->willReturn(new QuerySnapshot($m, []));
-        $m->method('document')->willReturn($this->createMockDocument());
+        $docRef = $this->createMockDocument();
+        $m->method('documents')->willReturn(new QuerySnapshot($m, [$docRef->snapshot()]));
 
         return $m;
     }

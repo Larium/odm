@@ -80,6 +80,6 @@ class FirestoreExpressionVisitor extends ExpressionVisitor
 
         $reflection = new \ReflectionClass($this->queryProxyClass);
 
-        return $reflection->newInstanceArgs([$this->collection]);
+        return $reflection->newInstanceArgs([$this->query]);
     }
 }
