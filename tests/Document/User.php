@@ -39,6 +39,11 @@ class User
         $this->born = $born;
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function changeName(string $name): void
     {
         $this->first = $name;

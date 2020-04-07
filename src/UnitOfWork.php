@@ -97,6 +97,8 @@ class UnitOfWork
 
             $doc = (new Hydrator($dataMap))->extract($obj);
             $this->dm->getCollection(get_class($obj))->persist($doc);
+            $this->registerOriginal($doc, $obj);
+            $this->registerClean($doc->getId(), $obj);
         }
         $this->newObjects->removeAll($this->newObjects);
     }

@@ -36,8 +36,7 @@ class DocumentManager
         foreach ($config->getDocumentsPaths() as $path) {
             $this->metadataRegistry->registerPath($path);
         }
-        $clientFactory = $config->getClientFactory();
-        $this->client = (new $clientFactory())->createClient();
+        $this->client = $config->getClientFactory()->createClient();
 
         $this->config = $config;
         $this->unitOfWork = new UnitOfWork($this);

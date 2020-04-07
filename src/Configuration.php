@@ -27,12 +27,12 @@ class Configuration
         return $this->paths;
     }
 
-    public function setClientFactory(string $factory): void
+    public function setClientFactory(ClientFactory $factory): void
     {
         $this->clientFactory = $factory;
     }
 
-    public function getClientFactory(): string
+    public function getClientFactory(): ClientFactory
     {
         return $this->clientFactory;
     }

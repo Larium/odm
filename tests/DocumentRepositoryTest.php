@@ -6,12 +6,12 @@ namespace Larium\ODM;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Larium\ODM\Document\User;
-use Larium\ODM\Firestore\FirestoreClientFactory;
 use PHPUnit\Framework\TestCase;
 
 class DocumentRepositoryTest extends TestCase
 {
-    const CLIENT_FACTORY = FirestoreClientFactory::class;
+    use FirestoreHelperTrait;
+
     /**
      * @var Configuration
      */
@@ -32,7 +32,7 @@ class DocumentRepositoryTest extends TestCase
         $this->config->setDocumentsPaths([
             __DIR__ . '/Document'
         ]);
-        $this->config->setClientFactory(self::CLIENT_FACTORY);
+        $this->config->setClientFactory($this->createMockClientFactory());
         $this->dm = new DocumentManager($this->config);
     }
 
