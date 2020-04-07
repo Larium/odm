@@ -93,6 +93,9 @@ class CollectionTest extends TestCase
         return $m;
     }
 
+    /**
+     * @return ConnectionInterface
+     */
     private function getConnection()
     {
         $m = $this->getMockBuilder(ConnectionInterface::class)
