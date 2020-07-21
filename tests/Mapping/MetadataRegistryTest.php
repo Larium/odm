@@ -13,9 +13,7 @@ class MetadataRegistryTest extends TestCase
 {
     public function setUp(): void
     {
-        $loader = require __DIR__ . '/../../vendor/autoload.php';
-
-        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+        AnnotationRegistry::registerLoader('class_exists');
     }
 
     public function testRegistry(): void

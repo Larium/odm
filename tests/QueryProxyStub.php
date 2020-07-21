@@ -8,15 +8,25 @@ use ArrayIterator;
 
 class QueryProxyStub implements QueryProxy
 {
+    /**
+     * @var object
+     */
     private $query;
 
-    public function __construct(object $query)
+    /**
+     * @var object|null
+     */
+    private $document;
+
+    public function __construct(object $query, object $document = null)
     {
         $this->query = $query;
+        $this->document = $document;
     }
 
     public function getDocument(string $id): object
     {
+        return $this->document;
     }
 
     public function getIterator(): ArrayIterator

@@ -29,7 +29,6 @@ class DocumentManager
      */
     private $unitOfWork;
 
-
     public function __construct(Configuration $config)
     {
         $this->metadataRegistry = new MetadataRegistry();

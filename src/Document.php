@@ -72,7 +72,6 @@ final class Document
             }
             $this->data[$name] = $value;
 
-
             return;
         }
 

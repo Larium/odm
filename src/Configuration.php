@@ -12,7 +12,7 @@ class Configuration
     private $paths = [];
 
     /**
-     * @var string
+     * @var ClientFactory
      */
     private $clientFactory;
 
