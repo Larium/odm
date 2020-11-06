@@ -27,7 +27,7 @@ class User
     private $last;
 
     /**
-     * @ODM\Field(type="number")
+     * @ODM\Field(type="integer")
      */
     private $born;
 

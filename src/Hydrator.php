@@ -13,7 +13,6 @@ class Hydrator
      */
     private $dataMap;
 
-
     public function __construct(DataMap $dataMap)
     {
         $this->dataMap = $dataMap;
@@ -25,10 +24,10 @@ class Hydrator
 
         $data = $doc->getData();
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            $fieldMap->setProperty($en, $data[$fieldMap->getFieldName()]);
+            $fieldMap->setPropertyValue($en, $data[$fieldMap->getFieldName()]);
         }
         $idMap = $this->dataMap->getIdMap();
-        $idMap->setProperty($en, $doc->getId());
+        $idMap->setPropertyValue($en, $doc->getId());
 
         return $en;
     }

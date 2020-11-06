@@ -73,7 +73,6 @@ class UnitOfWork
     {
         if ($this->newObjects->contains($object)) {
             $this->newObjects->detach($object);
-
             return;
         }
 
@@ -128,6 +127,13 @@ class UnitOfWork
 
     private function deleteRemoved(): void
     {
+        foreach ($this->removedObjects as $obj) {
+            $dataMap = $this->dm->getDataMap(get_class($obj));
+
+            $doc = (new Hydrator($dataMap))->extract($obj);
+            $this->dm->getCollection(get_class($obj))->remove($doc);
+        }
+        $this->removedObjects->removeAll($this->removedObjects);
     }
 
     private function hasChangeSet(Document $doc, object $object): bool

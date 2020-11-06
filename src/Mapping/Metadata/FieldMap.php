@@ -4,28 +4,50 @@ declare(strict_types = 1);
 
 namespace Larium\ODM\Mapping\Metadata;
 
+use ReflectionException;
+use ReflectionProperty;
+
 class FieldMap
 {
+    /**
+     * The name of the field in database.
+     *
+     * @var string
+     */
     private $fieldName;
 
+    /**
+     * The name of the property of the class object.
+     *
+     * @var string
+     */
     private $propertyName;
 
+    /**
+     * @var string
+     */
     private $type;
 
-    private $dataMap;
+    /**
+     * @var string
+     */
+    private $documentClass;
 
+    /**
+     * @var ReflectionProperty
+     */
     private $property;
 
     public function __construct(
         string $fieldName,
         string $propertyName,
         string $type,
-        DataMap $dataMap
+        string $documentClass
     ) {
         $this->fieldName = $fieldName;
         $this->propertyName = $propertyName;
         $this->type = $type;
-        $this->dataMap = $dataMap;
+        $this->documentClass = $documentClass;
         $this->initProperty();
     }
 
@@ -39,11 +61,15 @@ class FieldMap
         return $this->propertyName;
     }
 
-    public function setProperty(object $object, $value): void
+    /**
+     * @param object $object The source object to hydrate.
+     * @param mixed $value The value to set for the property of the object.
+     */
+    public function setPropertyValue(object $object, $value): void
     {
         try {
-            $this->property->setValue($object, $value);
-        } catch (\ReflectionException $e) {
+            $this->setValue($object, $value);
+        } catch (ReflectionException $e) {
             throw new MetadataException(
                 sprintf("Error in setting %s", $this->propertyName),
                 -1,
@@ -60,17 +86,22 @@ class FieldMap
     private function initProperty(): void
     {
         try {
-            $this->property = new \ReflectionProperty(
-                $this->dataMap->getDocumentClass()->getName(),
+            $this->property = new ReflectionProperty(
+                $this->documentClass,
                 $this->propertyName
             );
             $this->property->setAccessible(true);
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             throw new MetadataException(
                 sprintf("Unable to set up property: %s", $this->propertyName),
                 -1,
                 $e
             );
         }
+    }
+
+    private function setValue(object $object, $value): void
+    {
+        $this->property->setValue($object, $value);
     }
 }

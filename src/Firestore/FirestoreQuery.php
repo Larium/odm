@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Larium\ODM\Firestore;
 
 use ArrayIterator;
+use function assert;
 use Larium\ODM\QueryProxy;
 use Google\Cloud\Firestore\Query;
 use Google\Cloud\Firestore\DocumentSnapshot;
@@ -42,7 +43,7 @@ class FirestoreQuery implements QueryProxy
     public function getDocument(string $id): object
     {
         $docSnap = $this->getIterator()->current();
-        \assert($docSnap instanceof DocumentSnapshot);
+        assert($docSnap instanceof DocumentSnapshot);
 
         return $docSnap;
     }

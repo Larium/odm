@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Larium\ODM\Mapping\Metadata;
 
+use ReflectionClass;
+
 class DataMap
 {
     private $documentClass;
@@ -16,7 +18,7 @@ class DataMap
 
     public function __construct(string $documentClass, string $collectionName)
     {
-        $this->documentClass = new \ReflectionClass($documentClass);
+        $this->documentClass = new ReflectionClass($documentClass);
         $this->collectionName = $collectionName;
     }
 
@@ -47,7 +49,7 @@ class DataMap
             $fieldName,
             $propertyName,
             $type,
-            $this
+            $this->documentClass->getName()
         );
     }
 
@@ -65,7 +67,7 @@ class DataMap
             $fieldName,
             $propertyName,
             $type,
-            $this
+            $this->documentClass->getName()
         );
     }
 
