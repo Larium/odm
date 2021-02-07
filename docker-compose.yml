@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+  php-cli:
+    build: .docker
+    container_name: larium-odm
+    image: larium-odm:latest
+    working_dir: /opt/php
+    tty: true
+    stdin_open: true
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/opt/php/resources/Credentials.json
+    volumes:
+      - .:/opt/php
