@@ -128,6 +128,11 @@ class UnitOfWork
 
     private function deleteRemoved(): void
     {
+        foreach ($this->removedObjects as $obj) {
+            $dataMap = $this->dm->getDataMap(get_class($obj));
+            $doc = (new Hydrator($dataMap))->extract($obj);
+            $this->dm->getCollection(get_class($obj))->remove($doc);
+        }
     }
 
     private function hasChangeSet(Document $doc, object $object): bool
