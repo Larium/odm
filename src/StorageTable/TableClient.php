@@ -19,13 +19,13 @@ class TableClient implements Client
 
     public function getCollection(string $collectionName): Collection
     {
-        $queryProxy = new StorageTableQuery($this->proxy);
+        $queryProxy = new StorageTableQuery($this->proxy, $collectionName);
 
         return new Collection(
             $collectionName,
-            new StorageTableExpressionVisitor($queryProxy),
+            new StorageTableExpressionVisitor($this->proxy, $collectionName),
             new StorageTableDocumentVisitor(),
-            new StorageTablePersister(),
+            new StorageTablePersister($this->proxy, $collectionName),
             $queryProxy
         );
     }

@@ -20,16 +20,16 @@ class Hydrator
 
     public function hydrate(Document $doc): object
     {
-        $en = $this->dataMap->getDocumentClass()->newInstanceWithoutConstructor();
+        $entity = $this->dataMap->getDocumentClass()->newInstanceWithoutConstructor();
 
         $data = $doc->getData();
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            $fieldMap->setPropertyValue($en, $data[$fieldMap->getFieldName()]);
+            $fieldMap->setPropertyValue($entity, $data[$fieldMap->getFieldName()]);
         }
         $idMap = $this->dataMap->getIdMap();
-        $idMap->setPropertyValue($en, $doc->getId());
+        $idMap->setPropertyValue($entity, $doc->getId());
 
-        return $en;
+        return $entity;
     }
 
     public function extract(object $object): Document

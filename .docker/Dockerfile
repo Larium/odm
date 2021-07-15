@@ -20,3 +20,5 @@ RUN apt-get update && \
     docker-php-ext-enable mongodb grpc && \
     docker-php-source delete && \
     rm -r /tmp/* /var/cache/*
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
