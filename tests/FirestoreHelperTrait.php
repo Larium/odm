@@ -18,7 +18,6 @@ use Larium\ODM\Firestore\FirestoreBridgeClient;
 
 trait FirestoreHelperTrait
 {
-
     /**
      * @return FirestoreClient
      */
