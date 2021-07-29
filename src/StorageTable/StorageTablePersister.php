@@ -6,9 +6,12 @@ namespace Larium\ODM\StorageTable;
 
 use Larium\ODM\Document;
 use Larium\ODM\Persister;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use MicrosoftAzure\Storage\Table\Models\EdmType;
 use MicrosoftAzure\Storage\Table\Models\Entity;
 use MicrosoftAzure\Storage\Table\TableRestProxy;
+use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class StorageTablePersister implements Persister
 {
@@ -31,7 +34,15 @@ class StorageTablePersister implements Persister
             $entity->addProperty($key, EdmType::propertyType($value), $value);
             $entity->setPropertyValue($key, $value);
         }
-        $this->proxy->insertEntity($this->collectionName, $entity);
+        try {
+            $this->proxy->insertEntity($this->collectionName, $entity);
+        } catch (ServiceException $e) {
+            /** @var ResponseInterface $response */
+            $response = $e->getResponse();
+            $bodyString = $response->getBody()->__toString();
+            $body = json_decode($bodyString, true);
+            throw new RuntimeException($body['odata.error']['code']);
+        }
     }
 
     public function update(Document $document): void
