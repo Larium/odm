@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Larium\ODM\StorageTable;
 
 use ArrayIterator;
+use Larium\ODM\Exception\DocumentNotFoundException;
 use Larium\ODM\QueryProxy;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use MicrosoftAzure\Storage\Table\TableRestProxy;
 use MicrosoftAzure\Storage\Table\Models\QueryEntitiesOptions;
 
@@ -36,7 +38,17 @@ class StorageTableQuery implements QueryProxy
 
     public function getDocument(string $id): object
     {
-
+        list($pk, $rowKey) = explode(':', $id);
+        $result = $this->proxy->getEntity($this->table, $pk, $rowKey);
+        try {
+            return $result->getEntity();
+        } catch (ServiceException $e) {
+            throw new DocumentNotFoundException(
+                sprintf("Document with id `%s` not found", $id),
+                404,
+                $e
+            );
+        }
     }
 
     public function limit(int $number): QueryProxy

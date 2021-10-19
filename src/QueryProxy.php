@@ -16,5 +16,8 @@ interface QueryProxy
 
     public function orderBy(string $field, int $direction): QueryProxy;
 
+    /**
+     * @throws \Larium\ODM\Exception\DocumentNotFoundException
+     */
     public function getDocument(string $id): object;
 }
