@@ -16,9 +16,11 @@ class StorageTableDocumentVisitor implements DocumentVisitor
     {
         assert($item instanceof Entity);
 
-        $props = array_map(function (Property $prop) {
-            return $prop->getValue();
-        }, $item->getProperties());
+        $props = [];
+        /** @var Property $property */
+        foreach ($item->getProperties() as $name => $property) {
+            $props[$name] = $property->getValue();
+        }
 
         $props['id'] = sprintf('%s:%s', $props['PartitionKey'], $props['RowKey']);
         unset($props['PartitionKey'], $props['RowKey'], $props['Timestamp']);
