@@ -14,6 +14,9 @@ class CollectionTest extends TestCase
 
     const DOC_ID = 'TbwKbAOiojFK4j857hoq';
 
+    /**
+     * @var FirestoreBridgeClient
+     */
     private $client;
 
     public function setUp(): void
