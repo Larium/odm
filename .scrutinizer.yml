@@ -1,18 +1,26 @@
 filter:
-    excluded_paths: [vendor/*, tests/*]
+  excluded_paths: [vendor/*, tests/*]
 checks:
-    php:
-        code_rating: true
-        duplication: true
+  php:
+    code_rating: true
+    duplication: true
+    unused_variables: true
+    unused_properties: true
+    simplify_boolean_return: true
+    return_doc_comments: true
+    remove_extra_empty_lines: true
 tools:
-    external_code_coverage:
-        timeout: 630
-    php_code_sniffer:
-        config:
-            standard: "PSR2"
+  external_code_coverage:
+    timeout: 900
+  php_code_sniffer:
+    config:
+      standard: "PSR12"
 build:
-    nodes:
-        analysis:
-            tests:
-                override:
-                    - php-scrutinizer-run
+  nodes:
+    analysis:
+      environment:
+        php:
+          version: 8.1.0
+      tests:
+        override:
+          - php-scrutinizer-run

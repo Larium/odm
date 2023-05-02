@@ -6,6 +6,7 @@ namespace Larium\ODM;
 
 use ArrayIterator;
 use DateTimeImmutable;
+use Google\Cloud\Core\Iterator\ItemIterator;
 use Google\Cloud\Core\Timestamp;
 use Google\Cloud\Firestore\CollectionReference;
 use Google\Cloud\Firestore\Connection\ConnectionInterface;
@@ -24,7 +25,7 @@ trait FirestoreHelperTrait
     protected function createFirestoreClient()
     {
         $m = $this->getMockBuilder(FirestoreClient::class)
-            ->setMethods(['collection', 'document'])
+            ->onlyMethods(['collection', 'document'])
             ->getMock();
 
         $m->method('document')->willReturn($this->createMockDocument());
@@ -40,7 +41,7 @@ trait FirestoreHelperTrait
     {
         $m = $this->getMockBuilder(DocumentReference::class)
             ->disableOriginalConstructor()
-            ->setMethods(['snapshot', 'id'])
+            ->onlyMethods(['snapshot', 'id', 'set', 'delete'])
             ->getMock();
 
         $m->method('snapshot')
@@ -63,11 +64,11 @@ trait FirestoreHelperTrait
 
         $m = $this->getMockBuilder(CollectionReference::class)
             ->setConstructorArgs([$conn, $vm, $name . '/databases/' . $name])
-            ->setMethods(['getIterator', 'where', 'documents'])
+            ->onlyMethods(['where', 'documents', 'document'])
             ->getMock();
 
-        $m->method('getIterator')->willReturn(new ArrayIterator());
         $m->method('where')->willReturn($m);
+        $m->method('document')->willReturn($this->createMockDocument());
         $m->method('documents')->willReturn(
             $this->createQuerySnapshot($m)
         );
@@ -91,7 +92,7 @@ trait FirestoreHelperTrait
     protected function getConnection()
     {
         $m = $this->getMockBuilder(ConnectionInterface::class)
-            ->setMethods(['commit', 'batchGetDocuments', 'beginTransaction', 'listCollectionIds', 'listDocuments', 'rollback', 'runQuery'])
+            ->onlyMethods(['commit', 'batchGetDocuments', 'beginTransaction', 'listCollectionIds', 'listDocuments', 'rollback', 'runQuery', 'runAggregationQuery', 'batchWrite'])
             ->getMock();
 
         $m->method('commit')
@@ -129,7 +130,7 @@ trait FirestoreHelperTrait
     protected function createMockClientFactory()
     {
         $m = $this->getMockBuilder(ClientFactory::class)
-            ->setMethods(['createClient'])
+            ->onlyMethods(['createClient'])
             ->getMock();
 
         $m->method('createClient')->willReturn(

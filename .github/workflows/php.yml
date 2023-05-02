@@ -1,0 +1,31 @@
+name: Pull Requests
+
+on: [pull_request]
+
+jobs:
+  tests:
+    name: Pull request checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run docker compose
+        run: docker-compose up -d
+
+      - name: Install dependencies with Composer
+        run: docker exec larium-odm bash -c "composer install --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader"
+
+      - name: Tests
+        run: docker exec larium-odm bash -c "./vendor/bin/phpunit tests/ --coverage-clover=build/coverage.clover"
+
+      - name: "Install PHP with extensions"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Downloading scrutinizer ocular.phar
+        run: wget https://scrutinizer-ci.com/ocular.phar
+      - name: Using scrutinizer CLI for uploading external code coverage data
+        env:
+          SCRUTINIZER_API_TOKEN: ${{ secrets.SCRUTINIZER_API_TOKEN }}
+        run: php ocular.phar code-coverage:upload --format=php-clover build/coverage.clover

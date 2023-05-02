@@ -10,7 +10,7 @@ use Larium\ODM\Persister;
 
 class FirestorePersister implements Persister
 {
-    private $collection;
+    private CollectionReference $collection;
 
     public function __construct(CollectionReference $collection)
     {
