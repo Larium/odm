@@ -11,3 +11,25 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/opt/php/resources/Credentials.json
     volumes:
       - .:/opt/php
+    networks:
+      - odm-network
+  mongo-server:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGODB}
+      - MONGO_INITDB_USER=${MONGODB_USER}
+      - MONGO_INITDB_PWD=${MONGODB_PASSWORD}
+    ports:
+      - "27016:27017"
+    volumes:
+      - ./.docker/mongo/init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+      - mongo-data:/data/db
+    networks:
+      - odm-network
+volumes:
+  mongo-data:
+networks:
+  odm-network:
+    driver: bridge

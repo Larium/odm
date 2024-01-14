@@ -4,3 +4,4 @@ vendor
 .phpunit.result.cache
 resources/Credentials.json
 .vscode
+.env
