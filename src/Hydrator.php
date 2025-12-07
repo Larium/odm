@@ -19,9 +19,9 @@ class Hydrator
         $this->dataMap = $dataMap;
     }
 
-    public function hydrate(Document $doc): object
+    public function hydrate(Document $doc, ?object $object = null): object
     {
-        $en = $this->dataMap->getDocumentClass()->newInstanceWithoutConstructor();
+        $en = $object ?? $this->dataMap->getDocumentClass()->newInstanceWithoutConstructor();
 
         $data = $doc->getData();
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
@@ -35,9 +35,16 @@ class Hydrator
 
     public function extract(object $object): Document
     {
-        return new Document(
-            $this->dataMap->getIdMap()->getPropertyValue($object),
-            $this->dataMap->getPropertiesValues($object)
-        );
+        $idValue = $this->dataMap->getIdMap()->getPropertyValue($object);
+        
+        // Map property values to field names (database format)
+        $fieldData = [];
+        foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
+            $fieldName = $fieldMap->getFieldName();
+            $propertyValue = $fieldMap->getPropertyValue($object);
+            $fieldData[$fieldName] = $propertyValue;
+        }
+        
+        return new Document($idValue, $fieldData);
     }
 }
