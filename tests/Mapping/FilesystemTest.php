@@ -14,8 +14,6 @@ class FilesystemTest extends TestCase
 
         $classes = $fs->getClassNames();
 
-        $class = reset($classes);
-
-        $this->assertEquals('Larium\ODM\Document\User', $class);
+        $this->assertContainsEquals('Larium\ODM\Document\User', $classes);
     }
 }

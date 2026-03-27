@@ -18,7 +18,7 @@ class QueryProxyStub implements QueryProxy
      */
     private $document;
 
-    public function __construct(object $query, object $document = null)
+    public function __construct(object $query, ?object $document = null)
     {
         $this->query = $query;
         $this->document = $document;

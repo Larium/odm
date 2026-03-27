@@ -33,7 +33,7 @@ class FirestoreExpressionVisitor extends ExpressionVisitor
         Comparison::CONTAINS => 'array-contains',
     ];
 
-    public function __construct(CollectionReference $collection, string $queryProxyClass = null)
+    public function __construct(CollectionReference $collection, ?string $queryProxyClass = null)
     {
         $this->queryProxyClass = $queryProxyClass ?: FirestoreQuery::class;
         $this->collection = $collection;

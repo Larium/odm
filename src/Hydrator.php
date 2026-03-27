@@ -25,7 +25,11 @@ class Hydrator
 
         $data = $doc->getData();
         foreach ($this->dataMap->getFieldMaps() as $fieldMap) {
-            $fieldMap->setProperty($en, $data[$fieldMap->getFieldName()]);
+            $fieldName = $fieldMap->getFieldName();
+            if (!array_key_exists($fieldName, $data)) {
+                continue;
+            }
+            $fieldMap->setProperty($en, $data[$fieldName]);
         }
         $idMap = $this->dataMap->getIdMap();
         $idMap->setProperty($en, $doc->getId());

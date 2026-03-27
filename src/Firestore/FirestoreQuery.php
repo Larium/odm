@@ -6,10 +6,8 @@ namespace Larium\ODM\Firestore;
 
 use ArrayIterator;
 use Larium\ODM\QueryProxy;
+use Google\Cloud\Firestore\CollectionReference;
 use Google\Cloud\Firestore\Query;
-use Google\Cloud\Firestore\DocumentSnapshot;
-
-use function assert;
 
 class FirestoreQuery implements QueryProxy
 {
@@ -43,10 +41,13 @@ class FirestoreQuery implements QueryProxy
 
     public function getDocument(string $id): object
     {
-        $docSnap = $this->getIterator()->current();
-        assert($docSnap instanceof DocumentSnapshot);
+        if (!$this->query instanceof CollectionReference) {
+            throw new \RuntimeException(
+                'getDocument by id requires a collection reference; use the query iterator for filtered results.'
+            );
+        }
 
-        return $docSnap;
+        return $this->query->document($id)->snapshot();
     }
 
     public function getIterator(): ArrayIterator

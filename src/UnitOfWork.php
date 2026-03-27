@@ -139,12 +139,18 @@ class UnitOfWork
     private function hasChangeSet(Document $doc, object $object): bool
     {
         $dataMap = $this->dm->getDataMap(get_class($object));
-        $fieldMaps = $dataMap->getPropertiesValues($object);
-        $data = $doc->getData();
+        $originalData = $doc->getData();
 
-        $common = array_intersect_key($data, $fieldMaps);
-        $diff = array_diff($fieldMaps, $common);
+        foreach ($dataMap->getFieldMaps() as $fieldMap) {
+            $fieldName = $fieldMap->getFieldName();
+            $current = $fieldMap->getPropertyValue($object);
+            $original = $originalData[$fieldName] ?? null;
 
-        return !empty($diff);
+            if ($original !== $current) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -27,7 +27,7 @@ class CollectionTest extends TestCase
     public function testGetDocuments(): void
     {
         $c = Criteria::create()
-            ->where(Criteria::expr()->eq('first', 'Andreas'));
+            ->where(Criteria::expr()->eq('first_name', 'Andreas'));
 
         $data = $this->client->getCollection('users')->getDocuments($c);
 

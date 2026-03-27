@@ -109,8 +109,8 @@ trait FirestoreHelperTrait
                 'updateTime' => new Timestamp(new DateTimeImmutable()),
             ],
             [
-                'first' => 'Andreas',
-                'last' => 'Kollaros',
+                'first_name' => 'Andreas',
+                'last_name' => 'Kollaros',
                 'born' => 1900
             ],
             true

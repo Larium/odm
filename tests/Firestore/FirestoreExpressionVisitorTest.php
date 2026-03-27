@@ -23,7 +23,7 @@ class FirestoreExpressionVisitorTest extends TestCase
     public function testExpressionVisitor()
     {
         $c = Criteria::create()
-            ->where(Criteria::expr()->eq('first', 'Andreas'));
+            ->where(Criteria::expr()->eq('first_name', 'Andreas'));
 
         $expr = $c->getWhereExpression();
 

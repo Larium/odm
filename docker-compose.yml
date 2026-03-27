@@ -1,4 +1,3 @@
-version: "3.1"
 services:
   php-cli:
     build: .docker
@@ -9,8 +8,10 @@ services:
     stdin_open: true
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/opt/php/resources/Credentials.json
+      - GRPC_VERBOSITY=NONE
     volumes:
       - .:/opt/php
+      - ./.docker/php-stack.ini:/usr/local/etc/php/conf.d/zz-stack.ini:ro
     networks:
       - odm-network
   mongo-server:

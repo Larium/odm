@@ -17,12 +17,12 @@ class User
     private $id;
 
     /**
-     * @ODM\Field(type="string")
+     * @ODM\Field(name="first_name", type="string")
      */
     private $first;
 
     /**
-     * @ODM\Field(type="string")
+     * @ODM\Field(name="last_name", type="string")
      */
     private $last;
 

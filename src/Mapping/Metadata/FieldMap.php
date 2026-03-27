@@ -60,7 +60,7 @@ class FieldMap
             return $this->property->getValue($object);
         }
 
-        return '';
+        return null;
     }
 
     private function initProperty(): void

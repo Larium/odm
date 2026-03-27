@@ -32,7 +32,11 @@ class IdentityMap
 
     public function set(string $id, object $object): void
     {
-        $this->data[get_class($object)][$id] = $object;
+        $className = get_class($object);
+        if (!isset($this->data[$className])) {
+            $this->data[$className] = [];
+        }
+        $this->data[$className][$id] = $object;
     }
 
     public function getData(): array

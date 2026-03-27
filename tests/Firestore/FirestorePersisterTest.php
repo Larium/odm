@@ -32,8 +32,8 @@ class FirestorePersisterTest extends TestCase
             ->method('document');
 
         $doc = new Document(self::DOC_ID, [
-            'first' => 'John',
-            'last' => 'Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
             'born' => 1970
         ]);
 
@@ -47,8 +47,8 @@ class FirestorePersisterTest extends TestCase
             ->method('document');
 
         $doc = new Document(self::DOC_ID, [
-            'first' => 'John',
-            'last' => 'Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
             'born' => 1970
         ]);
         $this->client->getCollection('users')

@@ -48,4 +48,9 @@ class UserGateway
         $this->user = $user;
         $this->description = $description;
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }

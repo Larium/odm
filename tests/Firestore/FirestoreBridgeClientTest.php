@@ -35,10 +35,6 @@ class FirestoreBridgeClientTest extends TestCase
 
         $this->dm->persist($userGateway);
         $this->dm->flush();
-/*
-        $repo = $this->dm->getRepository(UserGateway::class);
-        $userGateway = $repo->getDocument('670af32cbe9bc');
-
-        print_r($userGateway);*/
+        $this->assertNotEmpty($userGateway->getId());
     }
 }
