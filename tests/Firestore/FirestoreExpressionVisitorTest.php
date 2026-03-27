@@ -9,14 +9,19 @@ use Doctrine\Common\Collections\Criteria;
 use Google\Cloud\Firestore\FirestoreClient;
 use Google\Cloud\Firestore\V1\StructuredQuery\FieldFilter\Operator;
 use Larium\ODM\QueryProxyStub;
+use Larium\ODM\Support\RequiresGoogleApplicationCredentialsTrait;
 use PHPUnit\Framework\TestCase;
 
 class FirestoreExpressionVisitorTest extends TestCase
 {
+    use RequiresGoogleApplicationCredentialsTrait;
+
     private $client;
 
     public function setUp(): void
     {
+        $this->skipIfGoogleApplicationCredentialsMissing();
+
         $this->client = new FirestoreClient();
     }
 

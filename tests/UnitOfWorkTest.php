@@ -27,6 +27,90 @@ class UnitOfWorkTest extends TestCase
         $this->config->setClientFactory($this->createMockClientFactory());
     }
 
+    public function testFlushCallsUpdateWhenManagedEntityDiffersFromOriginal(): void
+    {
+        $collection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['update'])
+            ->getMock();
+        $collection->expects($this->once())->method('update')->with($this->callback(function (Document $d): bool {
+            return $d->getId() === 'u1'
+                && ($d->getData()['first_name'] ?? null) === 'Changed';
+        }));
+
+        $client = $this->createMock(Client::class);
+        $client->method('getCollection')->with('users')->willReturn($collection);
+
+        $config = new Configuration();
+        $config->setDocumentsPaths([__DIR__ . '/Document']);
+        $config->setClientFactory(new class($client) implements ClientFactory {
+            public function __construct(private Client $client)
+            {
+            }
+
+            public function createClient(): Client
+            {
+                return $this->client;
+            }
+        });
+
+        $dm = new DocumentManager($config);
+        $uow = $dm->getUnitOfWork();
+
+        $user = $this->userWithId('u1', 'John', 'Doe', 1970);
+        $doc = new Document('u1', [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'born' => 1970,
+        ]);
+
+        $uow->registerClean('u1', $user);
+        $uow->registerOriginal($doc, $user);
+        $user->changeName('Changed');
+
+        $dm->flush();
+    }
+
+    public function testFlushDoesNotUpdateWhenEntityMatchesOriginal(): void
+    {
+        $collection = $this->getMockBuilder(Collection::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['update'])
+            ->getMock();
+        $collection->expects($this->never())->method('update');
+
+        $client = $this->createMock(Client::class);
+        $client->method('getCollection')->with('users')->willReturn($collection);
+
+        $config = new Configuration();
+        $config->setDocumentsPaths([__DIR__ . '/Document']);
+        $config->setClientFactory(new class($client) implements ClientFactory {
+            public function __construct(private Client $client)
+            {
+            }
+
+            public function createClient(): Client
+            {
+                return $this->client;
+            }
+        });
+
+        $dm = new DocumentManager($config);
+        $uow = $dm->getUnitOfWork();
+
+        $user = $this->userWithId('u2', 'Same', 'Value', 1970);
+        $doc = new Document('u2', [
+            'first_name' => 'Same',
+            'last_name' => 'Value',
+            'born' => 1970,
+        ]);
+
+        $uow->registerClean('u2', $user);
+        $uow->registerOriginal($doc, $user);
+
+        $dm->flush();
+    }
+
     public function testHasChangeSetDetectsChangeWhenFieldNamesDifferFromPropertyNames(): void
     {
         $dm = new DocumentManager($this->config);

@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run docker compose
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Install dependencies with Composer
         run: docker exec larium-odm bash -c "composer install --no-ansi --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader"

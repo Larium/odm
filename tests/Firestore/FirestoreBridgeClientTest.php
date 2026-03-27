@@ -7,16 +7,21 @@ namespace Larium\ODM\Firestore;
 use Larium\ODM\Configuration;
 use Larium\ODM\Document\UserGateway;
 use Larium\ODM\DocumentManager;
+use Larium\ODM\Support\RequiresGoogleApplicationCredentialsTrait;
 use PHPUnit\Framework\TestCase;
 
 class FirestoreBridgeClientTest extends TestCase
 {
+    use RequiresGoogleApplicationCredentialsTrait;
+
     private Configuration $config;
 
     private DocumentManager $dm;
 
     public function setUp(): void
     {
+        $this->skipIfGoogleApplicationCredentialsMissing();
+
         $this->config = new Configuration();
         $this->config->setDocumentsPaths([
             __DIR__ . '/../Document'

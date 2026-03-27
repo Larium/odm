@@ -23,6 +23,7 @@ trait FirestoreHelperTrait
     protected function createFirestoreClient()
     {
         $m = $this->getMockBuilder(FirestoreClient::class)
+            ->disableOriginalConstructor()
             ->onlyMethods(['collection', 'document'])
             ->getMock();
 
