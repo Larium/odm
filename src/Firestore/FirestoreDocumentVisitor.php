@@ -7,6 +7,7 @@ namespace Larium\ODM\Firestore;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Larium\ODM\Document;
 use Larium\ODM\DocumentVisitor;
+
 use function assert;
 
 class FirestoreDocumentVisitor implements DocumentVisitor

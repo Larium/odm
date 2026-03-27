@@ -9,6 +9,8 @@ use Larium\ODM\QueryProxy;
 use Google\Cloud\Firestore\Query;
 use Google\Cloud\Firestore\DocumentSnapshot;
 
+use function assert;
+
 class FirestoreQuery implements QueryProxy
 {
     private $query;
@@ -42,7 +44,7 @@ class FirestoreQuery implements QueryProxy
     public function getDocument(string $id): object
     {
         $docSnap = $this->getIterator()->current();
-        \assert($docSnap instanceof DocumentSnapshot);
+        assert($docSnap instanceof DocumentSnapshot);
 
         return $docSnap;
     }

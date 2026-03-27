@@ -25,9 +25,6 @@ class DocumentRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        $loader = require __DIR__ . '/../vendor/autoload.php';
-
-        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
         $this->config = new Configuration();
         $this->config->setDocumentsPaths([
             __DIR__ . '/Document'

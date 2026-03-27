@@ -4,17 +4,19 @@ declare(strict_types = 1);
 
 namespace Larium\ODM\Mapping\Metadata;
 
+use ReflectionProperty;
+
 class FieldMap
 {
-    private $fieldName;
+    private string $fieldName;
 
-    private $propertyName;
+    private string $propertyName;
 
-    private $type;
+    private string $type;
 
-    private $dataMap;
+    private DataMap $dataMap;
 
-    private $property;
+    private ReflectionProperty $property;
 
     public function __construct(
         string $fieldName,
@@ -52,9 +54,13 @@ class FieldMap
         }
     }
 
-    public function getPropertyValue(object $object)
+    public function getPropertyValue(object $object): mixed
     {
-        return $this->property->getValue($object);
+        if ($this->property->isInitialized($object)) {
+            return $this->property->getValue($object);
+        }
+
+        return '';
     }
 
     private function initProperty(): void

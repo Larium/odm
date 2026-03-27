@@ -1,4 +1,4 @@
-FROM php:8.2-cli-buster
+FROM php:8.4-cli
 
 WORKDIR "/opt/php"
 
@@ -9,13 +9,13 @@ RUN apt-get update && \
     pecl channel-update pecl.php.net && \
     pecl install grpc && \
     pecl install mongodb && \
-    mkdir -p /tmp/protoc && \
-    curl -L https://github.com/google/protobuf/releases/download/v3.2.0/protoc-3.2.0-linux-x86_64.zip > /tmp/protoc/protoc.zip && \
-    cd /tmp/protoc && \
-    unzip protoc.zip && \
-    cp /tmp/protoc/bin/protoc /usr/local/bin && \
-    cd /tmp && \
-    rm -r /tmp/protoc && \
+    # mkdir -p /tmp/protoc && \
+    # curl -L https://github.com/google/protobuf/releases/download/v3.2.0/protoc-3.2.0-linux-x86_64.zip > /tmp/protoc/protoc.zip && \
+    # cd /tmp/protoc && \
+    # unzip protoc.zip && \
+    # cp /tmp/protoc/bin/protoc /usr/local/bin && \
+    # cd /tmp && \
+    # rm -r /tmp/protoc && \
     docker-php-ext-install bcmath && \
     docker-php-ext-enable mongodb grpc && \
     docker-php-source delete && \

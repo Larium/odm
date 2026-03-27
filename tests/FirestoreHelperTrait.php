@@ -4,9 +4,7 @@ declare(strict_types = 1);
 
 namespace Larium\ODM;
 
-use ArrayIterator;
 use DateTimeImmutable;
-use Google\Cloud\Core\Iterator\ItemIterator;
 use Google\Cloud\Core\Timestamp;
 use Google\Cloud\Firestore\CollectionReference;
 use Google\Cloud\Firestore\Connection\ConnectionInterface;

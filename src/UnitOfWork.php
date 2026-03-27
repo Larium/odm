@@ -8,11 +8,11 @@ use SplObjectStorage;
 
 class UnitOfWork
 {
-    private $newObjects = [];
+    private $newObjects;
 
-    private $dirtyObjects = [];
+    private $dirtyObjects;
 
-    private $removedObjects = [];
+    private $removedObjects;
 
     /**
      * @var DocumentManager
@@ -46,7 +46,7 @@ class UnitOfWork
 
     public function registerOriginal(Document $doc, object $object): void
     {
-        $this->originalObjects->attach($object, $doc);
+        $this->originalObjects->offsetSet($object, $doc);
     }
 
     public function registerClean(string $id, object $object): void
@@ -56,30 +56,30 @@ class UnitOfWork
 
     public function registerNew(object $object): void
     {
-        $this->newObjects->attach($object);
+        $this->newObjects->offsetSet($object);
     }
 
     public function registerDirty(object $object): void
     {
-        if (!$this->removedObjects->contains($object)
-            && !$this->dirtyObjects->contains($object)
-            && !$this->newObjects->contains($object)
+        if (!$this->removedObjects->offsetExists($object)
+            && !$this->dirtyObjects->offsetExists($object)
+            && !$this->newObjects->offsetExists($object)
         ) {
-            $this->dirtyObjects->attach($object);
+            $this->dirtyObjects->offsetSet($object);
         }
     }
 
     public function registerRemoved(object $object): void
     {
-        if ($this->newObjects->contains($object)) {
+        if ($this->newObjects->offsetExists($object)) {
             $this->newObjects->detach($object);
 
             return;
         }
 
-        $this->dirtyObjects->detach($object);
-        if (!$this->removedObjects->contains($object)) {
-            $this->removedObjects->attach($object);
+        $this->dirtyObjects->offsetUnset($object);
+        if (!$this->removedObjects->offsetExists($object)) {
+            $this->removedObjects->offsetSet($object);
         }
     }
 
@@ -120,6 +120,7 @@ class UnitOfWork
     {
         foreach ($this->originalObjects as $obj) {
             $doc = $this->originalObjects[$obj];
+            /** @var Document $doc */
             if ($this->hasChangeSet($doc, $obj)) {
                 $this->registerDirty($obj);
             }
